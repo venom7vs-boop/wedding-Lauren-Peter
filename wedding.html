@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Wedding of Lauren & Peter</title>
+    <style>        /* 11. CSS UNTUK COVER (OVERLAY) */
+        #wedding-cover {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        url('./foto4.jpg'); /* Pakai foto4 sebagai background cover */
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            z-index: 10000; /* Paling depan */
+            transition: transform 1s ease-in-out, opacity 1s ease-in-out;
+        }
+
+        #wedding-cover.hide {
+            transform: translateY(-100%); /* Geser ke atas saat dibuka */
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .btn-open {
+            background-color: #bc8a5f;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 30px;
+            font-weight: bold;
+            margin-top: 20px;
+            border: 2px solid white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-open:hover {
+            background-color: #5d4037;
+            transform: scale(1.1);
+        }
+</style>
+    <style>
+        /* 1. DASAR & TEMA */
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #fdfaf7;
+            margin: 0;
+            color: #5d4037;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* 2. HEADER HERO */
+        .hero {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.5)), 
+                              url('./foto4.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            border-bottom: 5px solid #bc8a5f;
+        }
+
+        .wedding-title {
+            font-size: 3.5rem;
+            margin: 0;
+            font-style: italic;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+        }
+
+        .date-box {
+            border-top: 1px solid white;
+            border-bottom: 1px solid white;
+            padding: 10px 30px;
+            margin-top: 20px;
+            letter-spacing: 3px;
+            font-weight: bold;
+        }
+
+        /* 3. ANIMASI REVEAL (MUNCUL SAAT SCROLL) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1.2s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 4. SEKSI UMUM */
+        .section {
+            padding: 60px 20px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            transition: transform 0.5s ease;
+        }
+
+        .card:hover { transform: translateY(-5px); }
+
+        /* 5. STORY TIMELINE */
+        .story-section { padding: 40px 20px; background-color: #ffffff; }
+        .story-timeline { position: relative; max-width: 500px; margin: 0 auto; text-align: left; }
+        .story-item {
+            padding: 10px 30px; border-left: 2px solid #bc8a5f;
+            position: relative; margin-bottom: 30px; margin-left: 20px;
+        }
+        .story-item::before {
+            content: '❤'; position: absolute; left: -11px; top: 10px;
+            background: #ffffff; color: #bc8a5f; padding: 2px; font-size: 14px;
+        }
+        .story-date { font-weight: bold; color: #bc8a5f; display: block; margin-bottom: 5px; }
+
+        /* 6. GALERI */
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 20px; }
+        .gallery-item { aspect-ratio: 1/1; overflow: hidden; border-radius: 10px; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .gallery-item img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* 7. COUNTDOWN */
+        .countdown-container { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
+        .countdown-item { background: #bc8a5f; color: white; padding: 10px; border-radius: 10px; min-width: 60px; }
+        .countdown-item span { display: block; font-size: 1.5rem; font-weight: bold; }
+
+        /* 8. FORM & TOMBOL */
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 10px; box-sizing: border-box; }
+        .btn { display: inline-block; padding: 15px 30px; border-radius: 30px; text-decoration: none; font-weight: bold; cursor: pointer; border: none; }
+        .btn-wa { background: #25d366; color: white; width: 100%; }
+        .btn-maps { border: 2px solid #bc8a5f; color: #bc8a5f; background: white; }
+
+        /* 9. KELOPAK BUNGA */
+        .petal { position: fixed; top: -10%; z-index: 9998; pointer-events: none; animation-name: fall; animation-timing-function: linear; animation-iteration-count: infinite; color: #ffb7c5; }
+        @keyframes fall { 0% { top: -10%; transform: translateX(0) rotate(0deg); } 100% { top: 110%; transform: translateX(100px) rotate(360deg); } }
+
+        /* 10. MUSIK CONTROL */
+        .music-control { position: fixed; bottom: 20px; left: 20px; z-index: 9999; }
+        #musicBtn { width: 55px; height: 55px; border-radius: 50%; background: #bc8a5f; color: white; border: none; font-size: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
+    </style>
+</head>
+<body>    <div id="wedding-cover">
+        <p style="letter-spacing: 5px; font-size: 0.9rem;">WEDDING INVITATION</p>
+        <h1 style="font-size: 3rem; font-style: italic; margin: 10px 0;">Lauren & Peter</h1>
+        <p style="margin-bottom: 20px;">Kepada Bapak/Ibu/Saudara/i</p>
+        <div style="background: rgba(255,255,255,0.2); padding: 10px 25px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.5);">
+            <p style="margin:0; font-style: italic;">Tamu Undangan</p>
+        </div>
+        <button class="btn-open" onclick="openInvitation()">📩 Buka Undangan</button>
+    </div>
+
+
+    <div class="hero">
+        <p style="letter-spacing: 5px;">THE WEDDING OF</p>
+        <h1 class="wedding-title">Lauren & Peter</h1>
+        <div class="date-box">12 . 12 . 2026</div>
+    </div>
+
+    <div class="section reveal">
+        <div class="card">
+            <p style="font-style: italic; color: #8d6e63;">"Demikianlah mereka bukan lagi dua, melainkan satu. Karena itu, apa yang telah dipersatukan Allah, tidak boleh diceraikan manusia."</p>
+            <p><strong>Matius 19:6</strong></p>
+        </div>
+    </div>
+
+    <div class="story-section reveal">
+        <h2 style="font-family: serif; font-style: italic; color: #bc8a5f;">Kisah Cinta Kami</h2>
+        <div class="story-timeline">
+            <div class="story-item">
+                <span class="story-date">Awal Pertemuan</span>
+                <p>Semua dimulai dari sebuah pelayanan di gereja. Pandangan pertama yang membawa kedamaian, saat melodi piano pertama kali menyatukan hati kami.</p>
+            </div>
+            <div class="story-item">
+                <span class="story-date">Kedekatan</span>
+                <p>Lewat lagu-lagu mellow yang Peter mainkan, kami menyadari Tuhan memiliki rencana indah untuk kami berdua.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="section reveal">
+        <h2 style="font-style: italic;">Momen Bahagia</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="./foto1.jpg"></div>
+            <div class="gallery-item"><img src="./foto2.jpg"></div>
+            <div class="gallery-item"><img src="./foto3.jpg"></div>
+            <div class="gallery-item"><img src="./foto4.jpg"></div>
+        </div>
+    </div>
+
+    <div class="section reveal">
+        <h3>Menghitung Hari</h3>
+        <div id="countdown" class="countdown-container">
+            <div class="countdown-item"><span id="days">00</span> Hari</div>
+            <div class="countdown-item"><span id="hours">00</span> Jam</div>
+            <div class="countdown-item"><span id="minutes">00</span> Menit</div>
+            <div class="countdown-item"><span id="seconds">00</span> Detik</div>
+        </div>
+    </div>
+
+    <div class="section reveal">
+        <div class="card">
+            <h2>Lokasi Acara</h2>
+            <p><strong>Gereja Advent Pusat</strong><br>Jakarta Pusat</p>
+            <div style="border-radius: 15px; overflow: hidden; margin: 15px 0;">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.621215163935!2d106.82281227585093!3d-6.18142756056637!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f430f13eab21%3A0xb83f4669f7ba7022!2sGereja%20Masehi%20Advent%20Hari%20Ketujuh%20Jemaat%20Pusat!5e0!3m2!1sid!2sid!4v1709456789000!5m2!1sid!2sid" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+            <a href="https://maps.app.goo.gl/9RzX4P8XQG98nU8m9" target="_blank" class="btn btn-maps">📍 Navigasi Google Maps</a>
+        </div>
+    </div>
+
+    <div class="section reveal">
+        <div class="card">
+            <h2>Kirim Ucapan</h2>
+            <input type="text" id="guestName" placeholder="Nama Anda">
+            <textarea id="guestWish" rows="4" placeholder="Tulis ucapan selamat..."></textarea>
+            <button onclick="sendWish()" class="btn btn-wa">💬 Kirim ke WhatsApp</button>
+        </div>
+    </div>
+
+    <div class="music-control">
+        <audio id="weddingMusic" loop preload="auto">
+            <source src="musik.mp3" type="audio/mpeg">
+        </audio>
+        <button onclick="toggleMusic()" id="musicBtn">🎵</button>
+    </div>
+
+    <script>
+        // --- MUSIK LOGIC ---
+        var music = document.getElementById("weddingMusic");
+        var btn = document.getElementById("musicBtn");
+
+        function toggleMusic() {
+            if (music.paused) {
+                music.play().then(() => { btn.innerHTML = "⏸️"; }).catch(e => console.log(e));
+            } else {
+                music.pause(); btn.innerHTML = "🎵";
+            }
+        }
+
+        function autoPlayMusic() {
+            music.play().then(() => {
+                btn.innerHTML = "⏸️";
+                document.removeEventListener('click', autoPlayMusic);
+                document.removeEventListener('touchstart', autoPlayMusic);
+            });
+        }
+        document.addEventListener('click', autoPlayMusic);
+        document.addEventListener('touchstart', autoPlayMusic);
+
+        // --- COUNTDOWN ---
+        const target = new Date("Dec 12, 2026 09:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = target - now;
+            if (diff > 0) {
+                document.getElementById("days").innerHTML = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById("hours").innerHTML = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("minutes").innerHTML = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("seconds").innerHTML = Math.floor((diff % (1000 * 60)) / 1000);
+            }
+        }, 1000);
+
+        // --- WHATSAPP ---
+        function sendWish() {
+            const name = document.getElementById('guestName').value;
+            const wish = document.getElementById('guestWish').value;
+            if(!name || !wish) return alert("Mohon isi nama dan ucapan");
+            window.open(`https://wa.me/62895803657223?text=Halo Peter %26 Lauren, saya *${name}* mengucapkan: ${wish}`, '_blank');
+        }
+
+        // --- REVEAL ANIMATION ---
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                if (elementTop < windowHeight - 150) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal(); // Jalankan sekali saat load
+
+        // --- KELOPAK BUNGA ---
+        function createPetals() {
+            const petals = ['🌸', '✨', '🤍'];
+            setInterval(() => {
+                const petal = document.createElement('div');
+                petal.className = 'petal';
+                petal.innerHTML = petals[Math.floor(Math.random() * petals.length)];
+                petal.style.left = Math.random() * 100 + 'vw';
+                const duration = Math.random() * 5 + 5;
+                petal.style.animationDuration = duration + 's';
+                petal.style.fontSize = Math.random() * 15 + 10 + 'px';
+                petal.style.opacity = Math.random();
+                document.body.appendChild(petal);
+                setTimeout(() => petal.remove(), duration * 1000);
+            }, 800);
+        }
+        createPetals();
+    </script>
+    <script>        function openInvitation() {
+            // 1. Sembunyikan Cover
+            document.getElementById("wedding-cover").classList.add("hide");
+            
+            // 2. Putar Musik Otomatis
+            var music = document.getElementById("weddingMusic");
+            music.play().then(() => {
+                document.getElementById("musicBtn").innerHTML = "⏸️";
+            }).catch(e => console.log("Musik gagal putar:", e));
+
+            // 3. Mulai Efek Kelopak Bunga (jika ingin bunga baru muncul setelah klik)
+            createPetals(); 
+            
+            // 4. Aktifkan animasi reveal pertama
+            reveal();
+        }
+</script>
+</body>
+</html>
